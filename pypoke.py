@@ -42,5 +42,5 @@ class pypoke:
         
 
 # poke = pypoke(input("Username: "), input("Password: "))
-# print(username + " " + password)
+# print(username() + " " + password())
 pypoke(username(), password())
