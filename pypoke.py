@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 from time import sleep
 from secrets import username, password
 
@@ -18,26 +19,22 @@ class pypoke:
         sleep(2)
         self.driver.find_element_by_xpath("//input[@name=\"email\"]")\
             .send_keys(username)
-        sleep(1)
         self.driver.find_element_by_xpath("//input[@name=\"pass\"]")\
             .send_keys(password)
         sleep(1)
         self.driver.find_element_by_xpath("//button[@name=\"login\"]").click()
         print("Logging in")
-        sleep(4)
+        sleep(2)
 
-
+        #poke loop
+        count = 0
         while True:
-            self.driver.find_element_by_link_text("Poke Back").click
-                # .click
-            print("Clicked Poke Back button")
-            # try:
-            #     self.driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[1]/div/div[2]/div[2]/div[1]/div[2]/div/div[1]/div[3]/div/div/div/div[1]/div/a[1]")\
-            #         .click
-            #     print("Clicked Poke Back button")
-            #     sleep(4)
-            # except NoSuchElementException:
-            #     print("Poke Back button not found")
+            try:
+                self.driver.find_element_by_link_text("Poke Back").send_keys(Keys.RETURN)
+                count += 1
+                print("Clicked Poke Back button " + count + " times")
+            except NoSuchElementException:
+                print("Poke Back button not found")
             sleep(4)
         
 
