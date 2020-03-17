@@ -60,5 +60,5 @@ class pypoke:
             return False
         return True
 
-poke = pypoke(input("Username: "), getpass("Password (input is hidden): "))
+pypoke(input("Username: "), getpass("Password (input is hidden): "))
 # pypoke(username(), password())
