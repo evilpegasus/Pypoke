@@ -13,14 +13,6 @@ option.add_experimental_option("prefs", {
 })
 
 class pypoke:
-    @classmethod
-    def check_exists_by_xpath(cls, self, xpath):
-        try:
-            self.driver.find_element_by_xpath(xpath)
-        except NoSuchElementException:
-            return False
-        return True
-
     def __init__(self, username, password):
         self.driver = webdriver.Chrome(options = option)
         self.driver.get("https://www.facebook.com/pokes/")
@@ -59,6 +51,14 @@ class pypoke:
             except NoSuchElementException:
                 print("Poke Back button not found")
             sleep(4)
+    
+    @classmethod
+    def check_exists_by_xpath(cls, self, xpath):
+        try:
+            self.driver.find_element_by_xpath(xpath)
+        except NoSuchElementException:
+            return False
+        return True
 
 poke = pypoke(input("Username: "), getpass("Password (input is hidden): "))
 # pypoke(username(), password())
