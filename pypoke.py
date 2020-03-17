@@ -12,8 +12,16 @@ option.add_experimental_option("prefs", {
 })
 
 class pypoke:
+    @classmethod
+    def check_exists_by_xpath(cls, self, xpath):
+        try:
+            self.driver.find_element_by_xpath(xpath)
+        except NoSuchElementException:
+            return False
+        return True
+
     def __init__(self, username, password):
-        self.driver = webdriver.Chrome(chrome_options = option)
+        self.driver = webdriver.Chrome(options = option)
         self.driver.get("https://www.facebook.com/pokes/")
         print("Going to Facebook")
         sleep(2)
@@ -26,18 +34,30 @@ class pypoke:
         print("Logging in")
         sleep(2)
 
+        #incase of incorrect username/password
+        while (self.check_exists_by_xpath(self, "//input[@name=\"email\"]") or self.check_exists_by_xpath(self, "//input[@name=\"pass\"]")):
+            print("Failed to login, please reenter email and password")
+            username = input("Username: ")
+            password = input("Password: ")
+            self.driver.find_element_by_xpath("//input[@name=\"email\"]")\
+                .send_keys(username)
+            self.driver.find_element_by_xpath("//input[@name=\"pass\"]")\
+                .send_keys(password)
+            sleep(1)
+            self.driver.find_element_by_xpath("//button[@name=\"login\"]").click()
+            print("Logging in")
+            sleep(2)
+
         #poke loop
         count = 0
         while True:
             try:
                 self.driver.find_element_by_link_text("Poke Back").send_keys(Keys.RETURN)
                 count += 1
-                print("Clicked Poke Back button " + count + " times")
+                print("Clicked Poke Back button " + str(count) + " times")
             except NoSuchElementException:
                 print("Poke Back button not found")
             sleep(4)
-        
 
-# poke = pypoke(input("Username: "), input("Password: "))
-# print(username() + " " + password())
-pypoke(username(), password())
+poke = pypoke(input("Username: "), input("Password: "))
+# pypoke(username(), password())
