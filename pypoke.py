@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 from secrets import username, password
+from getpass import getpass
 
 option = Options()
 # Pass the argument 1 to allow and 2 to block
@@ -24,29 +25,29 @@ class pypoke:
         self.driver = webdriver.Chrome(options = option)
         self.driver.get("https://www.facebook.com/pokes/")
         print("Going to Facebook")
-        sleep(2)
-        self.driver.find_element_by_xpath("//input[@name=\"email\"]")\
-            .send_keys(username)
-        self.driver.find_element_by_xpath("//input[@name=\"pass\"]")\
-            .send_keys(password)
+        sleep(1)
+        self.driver.find_element_by_xpath("//input[@name=\"email\"]").clear()
+        self.driver.find_element_by_xpath("//input[@name=\"email\"]").send_keys(username)
+        self.driver.find_element_by_xpath("//input[@name=\"pass\"]").clear()
+        self.driver.find_element_by_xpath("//input[@name=\"pass\"]").send_keys(password)
         sleep(1)
         self.driver.find_element_by_xpath("//button[@name=\"login\"]").click()
         print("Logging in")
-        sleep(2)
+        sleep(1)
 
         #incase of incorrect username/password
         while (self.check_exists_by_xpath(self, "//input[@name=\"email\"]") or self.check_exists_by_xpath(self, "//input[@name=\"pass\"]")):
             print("Failed to login, please reenter email and password")
             username = input("Username: ")
-            password = input("Password: ")
-            self.driver.find_element_by_xpath("//input[@name=\"email\"]")\
-                .send_keys(username)
-            self.driver.find_element_by_xpath("//input[@name=\"pass\"]")\
-                .send_keys(password)
+            password = getpass("Password (input is hidden): ")
+            self.driver.find_element_by_xpath("//input[@name=\"email\"]").clear()
+            self.driver.find_element_by_xpath("//input[@name=\"email\"]").send_keys(username)
+            self.driver.find_element_by_xpath("//input[@name=\"pass\"]").clear()
+            self.driver.find_element_by_xpath("//input[@name=\"pass\"]").send_keys(password)
             sleep(1)
             self.driver.find_element_by_xpath("//button[@name=\"login\"]").click()
             print("Logging in")
-            sleep(2)
+            sleep(1)
 
         #poke loop
         count = 0
@@ -59,5 +60,5 @@ class pypoke:
                 print("Poke Back button not found")
             sleep(4)
 
-poke = pypoke(input("Username: "), input("Password: "))
+poke = pypoke(input("Username: "), getpass("Password (input is hidden): "))
 # pypoke(username(), password())
